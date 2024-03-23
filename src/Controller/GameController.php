@@ -30,7 +30,7 @@ class GameController
         $x = $_GET['x'] ?? false; // Spalte
         $y = $_GET['y'] ?? false; // Zeile
 
-        $this->app->render('game/gameboard.html.php',[
+        $this->app->render('game/play.html.php',[
             'title' => 'TicTacTo-Spielbrett'
         ]);
     }
