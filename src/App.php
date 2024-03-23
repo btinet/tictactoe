@@ -14,6 +14,8 @@ class App
 
     public function __construct()
     {
+        // Session-Speicher initialisieren
+        session_start();
 
         // Klasse und Methode aus $_GET ziehen
         $controller = $_GET['controller'] ?? 'game';
