@@ -6,16 +6,14 @@ namespace Btinet\Tictactoe;
 class App
 {
 
-    private string $baseTemplate;
-    private bool|string $navigation;
+    // Standardwerte setzen
+    private string $baseTemplate = 'base.html.php';
+    private bool|string $navigation = 'navigation/default.html.php';
+    private bool|string $footer = 'AG Informatik';
 
-    /**
-     * @param string $baseTemplate
-     */
-    public function __construct(string $baseTemplate)
+
+    public function __construct()
     {
-        $this->baseTemplate = $baseTemplate;
-        $this->navigation = self::loadTemplate('navigation/default.html.php');
 
         // Klasse und Methode aus $_GET ziehen
         $controller = $_GET['controller'] ?? 'game';
@@ -25,7 +23,7 @@ class App
         $controller = __NAMESPACE__ . "\Controller\\" . ucfirst($controller) . "Controller";
 
         // Sollten Klasse und Methode existieren, dann soll ein neues Objekt erzeugt und Methode aufgerufen werden.
-        if(method_exists($controller,$method)) {
+        if(class_exists($controller) and method_exists($controller,$method)) {
             $controller = new $controller($this);
             $controller->$method();
         } else {
@@ -35,6 +33,30 @@ class App
                 'method' => $method
             ]);
         }
+    }
+
+    /**
+     * @param bool|string $navigation
+     */
+    public function setNavigation(bool|string $navigation): void
+    {
+        $this->navigation = $navigation;
+    }
+
+    /**
+     * @param string $baseTemplate
+     */
+    public function setBaseTemplate(string $baseTemplate): void
+    {
+        $this->baseTemplate = $baseTemplate;
+    }
+
+    /**
+     * @param bool|string $footer
+     */
+    public function setFooter(bool|string $footer): void
+    {
+        $this->footer = $footer;
     }
 
     /**
@@ -49,21 +71,30 @@ class App
         }
         $app = $this;
         $content = self::loadTemplate($template,$vars);
-        $navigation = $this->navigation;
+        $navigation = self::loadTemplate($this->navigation,$vars);
+        $footer = self::loadTemplate($this->footer,$vars);
         include TEMPLATES . $this->baseTemplate;
     }
 
-    public function loadTemplate(string $template, array $vars = []): bool|string
+    /** ob_start() ist der Output Buffer. Die so zu inkludierende Datei wird nicht sofort ausgegeben, sondern
+     * erst per "ob_get_clean()" der Variable $content zugewiesen, um an späterer Stelle per echo ausgegeben
+     * werden zu können.
+     */
+    public function loadTemplate(string|false $template, array $vars = []): bool|string
     {
-        $content = false;
-
         if($template and file_exists($file = TEMPLATES . $template)) {
+
             ob_start();
+
             foreach ($vars as $key => $value) {
                 ${$key} = $value;
             }
+
             include $file;
             $content = ob_get_clean();
+
+        } else {
+            $content = $template;
         }
         return $content;
     }

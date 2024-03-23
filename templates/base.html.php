@@ -1,3 +1,8 @@
+<?php
+
+use Btinet\Tictactoe\Service\ServerService;
+
+?>
 <!doctype html>
 <html lang="de">
 <head>
@@ -6,6 +11,8 @@
     <title><?= $title ?? '' ?></title>
     <!--  Kommentar  -->
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="<?= ServerService::link('assets/css/app.css')?>">
 </head>
 <body>
     <header>

@@ -9,4 +9,4 @@ const TEMPLATES = PROJECT_ROOT . 'templates' . DIRECTORY_SEPARATOR; // Template-
 
 require PROJECT_ROOT . 'vendor/autoload.php';
 
-$game = new App('base.html.php');
+$game = new App();

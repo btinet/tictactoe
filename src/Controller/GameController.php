@@ -18,6 +18,7 @@ class GameController
     {
         // TODO: Landing-Page implementieren (bevor das Spiel startet)
 
+        $this->app->setNavigation('navigation/simple.html.php');
         $this->app->render(false,[
             'title' => 'Startseite'
         ]);
@@ -32,6 +33,11 @@ class GameController
         $this->app->render('game/gameboard.html.php',[
             'title' => 'TicTacTo-Spielbrett'
         ]);
+    }
+
+    public function reset()
+    {
+        // TODO: Spiel zurücksetzen
     }
 
 }
