@@ -1,7 +1,7 @@
 <?php
 
 use Btinet\Tictactoe\Controller\GameController;
-use Btinet\Tictactoe\Service\ServerService;
+use Btinet\Tictactoe\Service\Host;
 
 ?>
 <h1>Spielbrett</h1>
@@ -10,7 +10,7 @@ use Btinet\Tictactoe\Service\ServerService;
         <tr>
             <?php for($k = 1; $k <= 3; $k++): ?>
                 <td>
-                    <a href="<?= ServerService::url(GameController::class,'play', ['x' => $k, 'y' => $i] )?>">
+                    <a href="<?= Host::route(GameController::class,'play', ['x' => $k, 'y' => $i] )?>">
                         <i class="bi-grid-3x3-gap-fill" style="font-size: 2rem; color: lightgray;"></i>
                     </a>
                 </td>

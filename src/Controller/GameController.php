@@ -37,7 +37,7 @@ class GameController
 
     public function reset()
     {
-        // TODO: Spiel zurücksetzen
+        // TODO: Spiel zurücksetzen implementieren
     }
 
 }

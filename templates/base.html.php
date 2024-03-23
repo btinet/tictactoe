@@ -1,6 +1,6 @@
 <?php
 
-use Btinet\Tictactoe\Service\ServerService;
+use Btinet\Tictactoe\Service\Host;
 
 ?>
 <!doctype html>
@@ -12,7 +12,7 @@ use Btinet\Tictactoe\Service\ServerService;
     <!--  Kommentar  -->
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= ServerService::link('assets/css/app.css')?>">
+    <link rel="stylesheet" href="<?= Host::link('assets/css/app.css')?>">
 </head>
 <body>
     <header>

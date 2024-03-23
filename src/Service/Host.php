@@ -5,7 +5,7 @@ namespace Btinet\Tictactoe\Service;
 use ReflectionClass;
 use ReflectionException;
 
-class ServerService
+class Host
 {
 
     /**
@@ -15,7 +15,7 @@ class ServerService
      * @param null $anchor
      * @return string complex url generated from parameters.
      */
-    public static function url(string $class, string $method, array $mandatory = null, $anchor = null): string
+    public static function route(string $class, string $method, array $mandatory = null, $anchor = null): string
     {
         $path = "";
 
