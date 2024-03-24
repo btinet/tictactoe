@@ -52,7 +52,7 @@ class Host
      */
     public static function link(string $target = null): string
     {
-        return self::getProtocol() . $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . $target;
+        return self::getProtocol() . $_SERVER['HTTP_HOST'] . '/' . $target;
     }
 
     public static function redirect(string $redirectUrl)
