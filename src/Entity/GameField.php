@@ -55,11 +55,19 @@ class GameField
     }
 
     /**
-     * @return Player
+     * @return Player|null
      */
-    public function getPlayer(): Player
+    public function getPlayer(): ?Player
     {
         return $this->player;
+    }
+
+    /**
+     * @param Player|null $player
+     */
+    public function setPlayer(?Player $player): void
+    {
+        $this->player = $player;
     }
 
 }

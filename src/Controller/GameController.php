@@ -6,6 +6,7 @@ use Btinet\Tictactoe\App;
 use Btinet\Tictactoe\Entity\GameField;
 use Btinet\Tictactoe\Entity\Player;
 use Btinet\Tictactoe\Service\Host;
+use Exception;
 
 class GameController
 {
@@ -13,28 +14,36 @@ class GameController
     private App $app;
     private array $winSet; // Mögliche Gewinnkombinationen
 
+    /**
+     * @throws Exception
+     */
     public function __construct(App $app)
     {
         $this->app = $app;
 
         if(!isset($_SESSION['current_player'])) {
-            $_SESSION['current_player'] = Player::ONE;
+            if(random_int(0,100)<=50) {
+                $_SESSION['current_player'] = Player::ONE;
+            } else {
+                $_SESSION['current_player'] = Player::TWO;
+            }
+
         }
 
         $this->winSet = [
             // Horizontale Dreier
-            [new GameField(1,1,null),new GameField(2,1,null),new GameField(3,1,null)],
-            [new GameField(1,2,null),new GameField(2,2,null),new GameField(3,2,null)],
-            [new GameField(1,3,null),new GameField(2,3,null),new GameField(3,3,null)],
+            [new GameField(1, 1, null), new GameField(2, 1, null), new GameField(3, 1, null)],
+            [new GameField(1, 2, null), new GameField(2, 2, null), new GameField(3, 2, null)],
+            [new GameField(1, 3, null), new GameField(2, 3, null), new GameField(3, 3, null)],
 
             // Vertikale Dreier
-            [new GameField(1,1,null),new GameField(1,2,null),new GameField(1,3,null)],
-            [new GameField(2,1,null),new GameField(2,2,null),new GameField(2,3,null)],
-            [new GameField(3,1,null),new GameField(3,2,null),new GameField(3,3,null)],
+            [new GameField(1, 1, null), new GameField(1, 2, null), new GameField(1, 3, null)],
+            [new GameField(2, 1, null), new GameField(2, 2, null), new GameField(2, 3, null)],
+            [new GameField(3, 1, null), new GameField(3, 2, null), new GameField(3, 3, null)],
 
             // Diagonale Dreier
-            [new GameField(1,1,null),new GameField(2,2,null),new GameField(3,3,null)],
-            [new GameField(1,3,null),new GameField(2,2,null),new GameField(3,1,null)],
+            [new GameField(1, 1, null), new GameField(2, 2, null), new GameField(3, 3, null)],
+            [new GameField(1, 3, null), new GameField(2, 2, null), new GameField(3, 1, null)],
         ];
 
     }
@@ -103,37 +112,36 @@ class GameController
         // Für jedes Dreier-Set
         foreach ($this->winSet as $fieldSet) {
 
-                $hits1 = 0;
-                $hits2 = 0;
-                foreach ($_SESSION['played_fields'] as $field) {
-                    /** @var GameField $field */
+            $hits1 = 0;
+            $hits2 = 0;
+            foreach ($_SESSION['played_fields'] as $field) {
+                /** @var GameField $field */
 
-                    if ($field->getPlayer() == Player::ONE) {
+                if ($field->getPlayer() == Player::ONE) {
 
-                        foreach ($fieldSet as $item) {
-                            if($field->equals($item)){
-                                $hits1++;
-                                if($hits1 == 3) {
-                                    $this->wins(Player::ONE);
-                                }
+                    foreach ($fieldSet as $item) {
+                        if($field->equals($item)){
+                            $hits1++;
+                            if($hits1 == 3) {
+                                $this->wins(Player::ONE);
                             }
                         }
+                    }
 
-                    } elseif($field->getPlayer() == Player::TWO) {
+                } elseif($field->getPlayer() == Player::TWO) {
 
-                        foreach ($fieldSet as $item) {
-                            if($field->equals($item)){
-                                $hits2++;
-                                if($hits2 == 3) {
-                                    $this->wins(Player::TWO);
-                                }
+                    foreach ($fieldSet as $item) {
+                        if($field->equals($item)){
+                            $hits2++;
+                            if($hits2 == 3) {
+                                $this->wins(Player::TWO);
                             }
                         }
-
                     }
 
                 }
 
+            }
 
         }
 
