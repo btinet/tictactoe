@@ -7,13 +7,13 @@ class GameField
 
     private int $x;
     private int $y;
-    private Player $player;
+    private Player|null $player;
 
     /**
      * @param int $x
      * @param int $y
      */
-    public function __construct(int $x, int $y, Player $player)
+    public function __construct(int $x, int $y, Player|null $player)
     {
         $this->x = $x;
         $this->y = $y;
@@ -34,6 +34,24 @@ class GameField
     public function getY(): int
     {
         return $this->y;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPosition(): string
+    {
+        return $this->x . $this->y;
+    }
+
+    public function equals(GameField $field): bool
+    {
+
+        if ($field->getPosition() == $this->getPosition()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

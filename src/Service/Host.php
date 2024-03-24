@@ -55,6 +55,12 @@ class Host
         return self::getProtocol() . $_SERVER['HTTP_HOST'] . DIRECTORY_SEPARATOR . $target;
     }
 
+    public static function redirect(string $redirectUrl)
+    {
+        header("Location: $redirectUrl", true, 302);
+        exit;
+    }
+
     /**
      *
      * @return string protocol and host.

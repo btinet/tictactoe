@@ -2,15 +2,23 @@
 
 use Btinet\Tictactoe\Controller\GameController;
 use Btinet\Tictactoe\Entity\GameField;
+use Btinet\Tictactoe\Entity\Player;
 use Btinet\Tictactoe\Service\Host;
 
 /**
  * @var array $playedFields
  * @var GameField $field
+ * @var Player $currentPlayer
  */
+
+$currentPlayer = $_SESSION['current_player'];
 
 ?>
 <h1>Spielbrett</h1>
+<div>
+    <b>Am Zug:</b>
+    <i class="bi-<?=$currentPlayer->getIcon()?>" style="font-size: 2rem; color:<?=$currentPlayer->getColor()?>;"></i>
+</div>
 <table>
     <?php for($i = 1; $i <= 3; $i++): ?>
         <tr>
@@ -19,11 +27,13 @@ use Btinet\Tictactoe\Service\Host;
 
                     <?php
                     $found = false;
-                    foreach($playedFields as $field) {
-                        if($i == $field->getY() and $k == $field->getX()) {
-                            echo '<i class="bi-'.$field->getPlayer()->getIcon().'" style="font-size: 2rem; color: '.$field->getPlayer()->getColor().';"></i>';
-                            $found = true;
-                            break;
+                    if($playedFields) {
+                        foreach($playedFields as $field) {
+                            if($i == $field->getY() and $k == $field->getX()) {
+                                echo '<i class="bi-'.$field->getPlayer()->getIcon().'" style="font-size: 2rem; color: '.$field->getPlayer()->getColor().';"></i>';
+                                $found = true;
+                                break;
+                            }
                         }
                     }
                     ?>
@@ -39,8 +49,6 @@ use Btinet\Tictactoe\Service\Host;
         </tr>
     <?php endfor; ?>
 </table>
-<h2>Verfügbare Spieler</h2>
-<i class="bi-circle" style="font-size: 2rem; color: black;"></i>
-<i class="bi-x-lg" style="font-size: 2rem; color: darkred;"></i>
+<a href="<?=Host::route(GameController::class,'reset')?>">Spiel neustarten</a>
 
 
