@@ -21,13 +21,14 @@ class GameController
     {
         $this->app = $app;
 
-        if(!isset($_SESSION['current_player'])) {
-            if(random_int(0,100)<=50) {
-                $_SESSION['current_player'] = Player::ONE;
-            } else {
-                $_SESSION['current_player'] = Player::TWO;
+        try {
+            if (!isset($_SESSION['current_player'])) {
+                $_SESSION['current_player'] = random_int(0, 100) <= 50 ? Player::ONE : Player::TWO;
             }
-
+        } catch (Exception $e) {
+            echo 'Fehler beim Initialisieren des Spielers: ' . $e->getMessage();
+            // Behandeln Sie die Ausnahme entsprechend, z.B. Standardwert setzen
+            $_SESSION['current_player'] = Player::ONE;
         }
 
         $this->winSet = [
@@ -56,7 +57,6 @@ class GameController
             $winner = $_SESSION['winner'];
         }
 
-        $this->app->setNavigation('navigation/simple.html.php');
         $this->app->render('game/index.html.php',[
             'title' => 'Startseite',
             'winner' => $winner

@@ -3,6 +3,8 @@
 namespace Btinet\Tictactoe;
 
 
+use Exception;
+
 class App
 {
 
@@ -16,23 +18,30 @@ class App
     {
         // Session-Speicher initialisieren
         session_start();
+        $this->routeController();
+    }
 
-        // Klasse und Methode aus $_GET ziehen
-        $controller = $_GET['controller'] ?? 'game';
-        $method = $_GET['method'] ?? 'index';
+    private function routeController(): void
+    {
+        $controllerClass = '';
+        try {
+            $controllerName = $_GET['controller'] ?? 'game';
+            $methodName = $_GET['method'] ?? 'index';
 
-        // Klasse mit Namespace zusammensetzen
-        $controller = __NAMESPACE__ . "\Controller\\" . ucfirst($controller) . "Controller";
+            $controllerClass = __NAMESPACE__ . "\Controller\\" . ucfirst($controllerName) . "Controller";
 
-        // Sollten Klasse und Methode existieren, dann soll ein neues Objekt erzeugt und Methode aufgerufen werden.
-        if(class_exists($controller) and method_exists($controller,$method)) {
-            $controller = new $controller($this);
-            $controller->$method();
-        } else {
-            self::render('error/404.html.php',[
+            if (!class_exists($controllerClass) || !method_exists($controllerClass, $methodName)) {
+                throw new Exception("Controller oder Methode nicht gefunden: $controllerClass::$methodName");
+            }
+
+            $controller = new $controllerClass($this);
+            $controller->$methodName();
+        } catch (Exception $e) {
+            $this->render('error/404.html.php', [
                 'title' => 'Seite nicht gefunden!',
-                'class' => $controller,
-                'method' => $method
+                'class' => $controllerClass,
+                'method' => $methodName,
+                'error' => $e->getMessage()
             ]);
         }
     }
