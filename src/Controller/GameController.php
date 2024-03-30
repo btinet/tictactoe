@@ -140,13 +140,23 @@ class GameController
 
             }
 
+            // Falls alle Felder bespielt sind und niemand einen Dreier hat
+            if(count($_SESSION['played_fields']) == 9) {
+                $this->wins();
+            }
+
         }
 
     }
 
-    private function wins(Player $winner)
+    private function wins(Player $winner = null)
     {
-        $_SESSION['winner'] = $winner;
+        if($winner) {
+            $_SESSION['winner'] = $winner;
+        } else {
+            $_SESSION['winner'] = 'draw';
+        }
+
         $target = Host::route(GameController::class,'index');
         Host::redirect($target);
     }
