@@ -22,4 +22,5 @@ enum Player
             self::TWO => 'darkred'
         };
     }
+
 }

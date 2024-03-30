@@ -112,33 +112,26 @@ class GameController
         // Für jedes Dreier-Set
         foreach ($this->winSet as $fieldSet) {
 
-            $hits1 = 0;
-            $hits2 = 0;
+            $hits = [];
+
+            // Für jedes bereits gespielte Feld
             foreach ($_SESSION['played_fields'] as $field) {
                 /** @var GameField $field */
 
-                if ($field->getPlayer() == Player::ONE) {
+                // Für jedes Feld aus dem Dreier-Set
+                foreach ($fieldSet as $item) {
+                    if ($field->equals($item)) {
+                        $player = $field->getPlayer();
+                        $hits[$player->name]++;
 
-                    foreach ($fieldSet as $item) {
-                        if($field->equals($item)){
-                            $hits1++;
-                            if($hits1 == 3) {
-                                $this->wins(Player::ONE);
-                            }
+                        if ($hits[Player::ONE->name] == 3) {
+                            $this->wins(Player::ONE);
+                        }
+
+                        if ($hits[Player::TWO->name] == 3) {
+                            $this->wins(Player::TWO);
                         }
                     }
-
-                } elseif($field->getPlayer() == Player::TWO) {
-
-                    foreach ($fieldSet as $item) {
-                        if($field->equals($item)){
-                            $hits2++;
-                            if($hits2 == 3) {
-                                $this->wins(Player::TWO);
-                            }
-                        }
-                    }
-
                 }
 
             }
@@ -153,8 +146,5 @@ class GameController
         $target = Host::route(GameController::class,'index');
         Host::redirect($target);
     }
-
-
-
 
 }
