@@ -112,7 +112,11 @@ class GameController
         // Für jedes Dreier-Set
         foreach ($this->winSet as $fieldSet) {
 
-            $hits = [];
+            // Punktetabelle initialisieren
+            $hits = [
+                Player::ONE->name => 0,
+                Player::TWO->name => 0,
+                ];
 
             // Für jedes bereits gespielte Feld
             foreach ($_SESSION['played_fields'] as $field) {
