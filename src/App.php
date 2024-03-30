@@ -81,9 +81,9 @@ class App
             ${$key} = $value;
         }
         $app = $this;
-        $content = self::loadTemplate($template,$vars);
-        $navigation = self::loadTemplate($this->navigation,$vars);
-        $footer = self::loadTemplate($this->footer,$vars);
+        $content = $this->loadTemplate($template,$vars);
+        $navigation = $this->loadTemplate($this->navigation,$vars);
+        $footer = $this->loadTemplate($this->footer,$vars);
         include TEMPLATES . $this->baseTemplate;
     }
 
@@ -96,11 +96,7 @@ class App
         if($template and file_exists($file = TEMPLATES . $template)) {
 
             ob_start();
-
-            foreach ($vars as $key => $value) {
-                ${$key} = $value;
-            }
-
+            extract($vars);
             include $file;
             $content = ob_get_clean();
 
