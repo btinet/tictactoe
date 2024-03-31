@@ -10,6 +10,8 @@ use Btinet\Tictactoe\Service\Host;
 
 ?>
 <h1>Lobby</h1>
+<p>Dies ist ein TicTacToe-Spiel, basierend auf PHP, HTML und CSS. Der Spielstand wird in <code>$_SESSION</code> gespeichert.</p>
+<p>Der Quellcode kann auf Github über den Link in der Fußzeile betrachtet und studiert werden.</p>
 
 <?php if($winner): ?>
     <?php if($winner != 'draw'): ?>

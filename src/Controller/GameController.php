@@ -21,6 +21,8 @@ class GameController
     {
         $this->app = $app;
 
+        $this->app->setFooter('footer/default_footer.html.php');
+
         try {
             if (!isset($_SESSION['current_player'])) {
                 $_SESSION['current_player'] = random_int(0, 100) <= 50 ? Player::ONE : Player::TWO;
